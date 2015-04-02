@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Think out loud</title><link href="http://kotfic.github.io/" rel="alternate"></link><link href="http://kotfic.github.io/feeds/all.atom.xml" rel="self"></link><id>http://kotfic.github.io/</id><updated>2010-12-05T19:30:00+01:00</updated><entry><title>Test Post</title><link href="http://kotfic.github.io/test-post.html" rel="alternate"></link><updated>2010-12-05T19:30:00+01:00</updated><author><name>Christopher Kotfila</name></author><id>tag:kotfic.github.io,2010-12-03:test-post.html</id><summary type="html">&lt;h1&gt;A little structure&lt;/h1&gt;
+&lt;p&gt;This is a test post with some content&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://pages.github.com/"&gt;github pages&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This is a post called:&lt;/p&gt;
+&lt;h1&gt;And here is some more content&lt;/h1&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec hendrerit tempor tellus. Donec pretium posuere tellus. Proin quam nisl, tincidunt et, mattis eget, convallis nec, purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla posuere. Donec vitae dolor. Nullam tristique diam non turpis. Cras placerat accumsan nulla. Nullam rutrum. Nam vestibulum accumsan nisl.   &lt;/p&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.    &lt;/p&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec hendrerit tempor tellus. Donec pretium posuere tellus. Proin quam nisl, tincidunt et, mattis eget, convallis nec, purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla posuere. Donec vitae dolor. Nullam tristique diam non turpis. Cras placerat accumsan nulla. Nullam rutrum. Nam vestibulum accumsan nisl.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category></entry></feed>
