@@ -2,7 +2,7 @@
 <html lang="en"
 >
 <head>
-    <title>Test Post - Think out loud</title>
+    <title>org-mode - Think out loud</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,29 +10,23 @@
 
 
 
-<link rel="canonical" href="http://kotfic.github.io/test-post.html">
 
-        <meta name="author" content="Christopher Kotfila" />
-        <meta name="keywords" content="pelican,publishing" />
-        <meta name="description" content="Short version for index and feeds" />
+    <meta name="author" content="Christopher Kotfila" />
+    <meta name="keywords" content="org-mode" />
 
+    <!-- Open Graph tags -->
         <meta property="og:site_name" content="Think out loud" />
-        <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Test Post"/>
-        <meta property="og:url" content="http://kotfic.github.io/test-post.html"/>
-        <meta property="og:description" content="Short version for index and feeds"/>
-        <meta property="article:published_time" content="2010-12-03" />
-            <meta property="article:section" content="misc" />
-            <meta property="article:tag" content="pelican" />
-            <meta property="article:tag" content="publishing" />
-            <meta property="article:author" content="Christopher Kotfila" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="Think out loud"/>
+        <meta property="og:url" content="http://kotfic.github.io"/>
+        <meta property="og:description" content="Think out loud"/>
 
 
     <!-- Bootstrap -->
         <link rel="stylesheet" href="http://kotfic.github.io/theme/css/bootstrap.min.css" type="text/css"/>
     <link href="http://kotfic.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="http://kotfic.github.io/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="http://kotfic.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
     <link rel="stylesheet" href="http://kotfic.github.io/theme/css/style.css" type="text/css"/>
 
         <link href="http://kotfic.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
@@ -72,47 +66,13 @@ Think out loud            </a>
     <div class="row">
         <div class="col-sm-9">
 
-    <section id="content">
-        <article>
-            <header class="page-header">
-                <h1>
-                    <a href="http://kotfic.github.io/test-post.html"
-                       rel="bookmark"
-                       title="Permalink to Test Post">
-                        Test Post
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2010-12-03T10:20:00+01:00"> Fri 03 December 2010</time>
-    </span>
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="http://kotfic.github.io/tag/pelican.html">pelican</a>
-        /
-	<a href="http://kotfic.github.io/tag/publishing.html">publishing</a>
-    
-</footer><!-- /.post-info -->                    </div>
+            <article>
+                <h2><a href="http://kotfic.github.io/managing-pelican-from-org-mode.html">Goals for Managing Pelican from Org-Mode</a></h2>
+                <div class="summary"><p>Some motivations for this blog, the goals for ox-pelican.el and some obvious problems that may come up in the future.</p>
+                    <a class="btn btn-default btn-xs" href="http://kotfic.github.io/managing-pelican-from-org-mode.html">more ...</a>
                 </div>
-                <h1>A little structure</h1>
-<p>This is a test post with some content</p>
-<p><a href="https://pages.github.com/">github pages</a></p>
-<p>This is a post called:</p>
-<h1>And here is some more content</h1>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec hendrerit tempor tellus. Donec pretium posuere tellus. Proin quam nisl, tincidunt et, mattis eget, convallis nec, purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla posuere. Donec vitae dolor. Nullam tristique diam non turpis. Cras placerat accumsan nulla. Nullam rutrum. Nam vestibulum accumsan nisl.   </p>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.    </p>
-<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec hendrerit tempor tellus. Donec pretium posuere tellus. Proin quam nisl, tincidunt et, mattis eget, convallis nec, purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla posuere. Donec vitae dolor. Nullam tristique diam non turpis. Cras placerat accumsan nulla. Nullam rutrum. Nam vestibulum accumsan nisl.</p>
-            </div>
-            <!-- /.entry-content -->
-        </article>
-    </section>
+            </article>
+            <hr/>
 
         </div>
         <div class="col-sm-3" id="sidebar">
@@ -126,13 +86,18 @@ Think out loud            </a>
             <li class="list-group-item"><a href="http://kotfic.github.io/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
                 <ul class="list-group " id="tags">
                     <li class="list-group-item tag-4">
-                        <a href="http://kotfic.github.io/tag/pelican.html">
-                            pelican
+                        <a href="http://kotfic.github.io/tag/org-mode.html">
+                            org-mode
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="http://kotfic.github.io/tag/publishing.html">
-                            publishing
+                        <a href="http://kotfic.github.io/tag/emacs.html">
+                            emacs
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://kotfic.github.io/tag/pelican.html">
+                            pelican
                         </a>
                     </li>
                 </ul>
@@ -147,10 +112,16 @@ Think out loud            </a>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2010 Christopher Kotfila
+         <div class="col-xs-10">&copy; 2015 Christopher Kotfila
             &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+	    <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>
+	    <a href="http://orgmode.org/" target="_blank">Org-Mode</a>              <p><small>  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution 4.0 International License</a>, except where indicated otherwise.
+</small></p>
+         </div>
          <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
       </div>
    </div>

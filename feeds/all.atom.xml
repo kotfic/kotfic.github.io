@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Think out loud</title><link href="http://kotfic.github.io/" rel="alternate"></link><link href="http://kotfic.github.io/feeds/all.atom.xml" rel="self"></link><id>http://kotfic.github.io/</id><updated>2010-12-05T19:30:00+01:00</updated><entry><title>Test Post</title><link href="http://kotfic.github.io/test-post.html" rel="alternate"></link><updated>2010-12-05T19:30:00+01:00</updated><author><name>Christopher Kotfila</name></author><id>tag:kotfic.github.io,2010-12-03:test-post.html</id><summary type="html">&lt;h1&gt;A little structure&lt;/h1&gt;
-&lt;p&gt;This is a test post with some content&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://pages.github.com/"&gt;github pages&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;This is a post called:&lt;/p&gt;
-&lt;h1&gt;And here is some more content&lt;/h1&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec hendrerit tempor tellus. Donec pretium posuere tellus. Proin quam nisl, tincidunt et, mattis eget, convallis nec, purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla posuere. Donec vitae dolor. Nullam tristique diam non turpis. Cras placerat accumsan nulla. Nullam rutrum. Nam vestibulum accumsan nisl.   &lt;/p&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.    &lt;/p&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec hendrerit tempor tellus. Donec pretium posuere tellus. Proin quam nisl, tincidunt et, mattis eget, convallis nec, purus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla posuere. Donec vitae dolor. Nullam tristique diam non turpis. Cras placerat accumsan nulla. Nullam rutrum. Nam vestibulum accumsan nisl.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category></entry></feed>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Think out loud</title><link href="http://kotfic.github.io/" rel="alternate"></link><link href="http://kotfic.github.io/feeds/all.atom.xml" rel="self"></link><id>http://kotfic.github.io/</id><updated>2015-04-04T00:00:00+02:00</updated><entry><title>Goals for Managing Pelican from Org-Mode</title><link href="http://kotfic.github.io/managing-pelican-from-org-mode.html" rel="alternate"></link><updated>2015-04-04T00:00:00+02:00</updated><author><name>Christopher Kotfila</name></author><id>tag:kotfic.github.io,2015-04-04:managing-pelican-from-org-mode.html</id><summary type="html">&lt;h1&gt;It Begins&lt;/h1&gt;
+&lt;p&gt;I've recently decided that I would like to start blogging. This is for a couple of reasons:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Giving Back&lt;/strong&gt; I have benefited immensely from blogs and websites where individuals who have suffered through difficult technical travails have shared the minutia of their suffering and saved me countless hours similar suffering.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Self reflection&lt;/strong&gt; I have noticed a lack of self reflection in my day to day work. I hope a more disciplined approach to writing will help me to be more thoughtful about the work choices I make. I often feel overwhelmed by the processes I implement to manage the various papers,  classes, projects, research and software I work on.  I am hoping that by writing out clear goals for these various elements I will be able to better assess my progress and pivot when things aren't working.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Because I should&lt;/strong&gt; &lt;a href="http://sachachua.com/blog/"&gt;Sacha Chua&lt;/a&gt; is the last in a long line of individuals that I respect who have recommended writing daily to improve my communication skills. As a burgeoning researcher I am (begrudgingly) starting to accept that I will need more skills than just software development to be successful.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;It gets technical&lt;/h1&gt;
+&lt;p&gt;I manage most of my life in &lt;a href="http://orgmode.org/"&gt;Org Mode&lt;/a&gt; which is a mode of the text editor &lt;a href="https://www.gnu.org/software/emacs/"&gt;Emacs&lt;/a&gt;. Org Mode (with contributions) is a whopping 136,000+ lines of &lt;a href="http://en.wikipedia.org/wiki/Emacs_Lisp"&gt;Emacs Lisp&lt;/a&gt;. It is really an application all in its own,  I use it to organize my classes, my research, my software and personal life. I'm pleased to say I am also using it to write this blog. Along with &lt;a href="https://danlamanna.com/"&gt;a friend&lt;/a&gt; I am working on developing a small Org Mode export library for the &lt;a href="http://blog.getpelican.com/"&gt;Pelican&lt;/a&gt; static website generator. The code is available &lt;a href="https://github.com/kotfic/ox-pelican"&gt;here&lt;/a&gt;. At the time of writing this blog there is just a small minimum viable product.&lt;/p&gt;
+&lt;h1&gt;Why roll my own?&lt;/h1&gt;
+&lt;p&gt;There are a bunch of great libraries out there already not the least of which is the &lt;a href="http://orgmode.org/manual/Publishing.html"&gt;Org Publish&lt;/a&gt; workflow for exporting from your org files to your hierarchical text format of choice. Unfortunately none of these met my goals:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Manage all posts and pages from a single Org Mode file. &lt;ul&gt;
+&lt;li&gt;This might end up being a bottle neck if I end up with thousands of posts (burn that bridge when we get there)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Separate concerns&lt;ul&gt;
+&lt;li&gt;Org Mode is for managing content,  Pelican is for publishing to the web.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Relatively light weight,&lt;ul&gt;
+&lt;li&gt;Do common tasks well&lt;/li&gt;
+&lt;li&gt;Edge cases should be handled by hand&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Pelican should be completely unaware that Org Mode and Emacs are involved.&lt;/li&gt;
+&lt;li&gt;Manage pelican post meta-data from the Org Mode property drawer.&lt;/li&gt;
+&lt;li&gt;Integrate into the org export workflow as much as possible.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Possible problems&lt;/h1&gt;
+&lt;p&gt;There are a few areas where this might fall flat on its face:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Org Mode can export files to pelican's content directory but it can't clean up without keeping track of what it has exported.  There are ways around this but it could get heavy very quickly.&lt;/li&gt;
+&lt;li&gt;If there are lots of posts (over 1000?) in a single file we may have performance issues.&lt;/li&gt;
+&lt;/ol&gt;</summary><category term="emacs"></category><category term="org-mode"></category><category term="pelican"></category></entry></feed>
