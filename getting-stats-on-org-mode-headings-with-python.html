@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Getting parameters on Org-Mode headings with Python - Think out loud</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="http://kotfic.github.io/getting-stats-on-org-mode-headings-with-python.html">
+
+        <meta name="author" content="Christopher Kotfila" />
+        <meta name="keywords" content="python,org-mode,pandas" />
+        <meta name="description" content="A quick python function for parsing out org-mode headlines. Used to build a pandas data frame for further analysis." />
+
+        <meta property="og:site_name" content="Think out loud" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Getting parameters on Org-Mode headings with Python"/>
+        <meta property="og:url" content="http://kotfic.github.io/getting-stats-on-org-mode-headings-with-python.html"/>
+        <meta property="og:description" content="A quick python function for parsing out org-mode headlines. Used to build a pandas data frame for further analysis."/>
+        <meta property="article:published_time" content="2015-04-10" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="org-mode" />
+            <meta property="article:tag" content="pandas" />
+            <meta property="article:author" content="Christopher Kotfila" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://kotfic.github.io/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://kotfic.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://kotfic.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://kotfic.github.io/theme/css/style.css" type="text/css"/>
+
+        <link href="http://kotfic.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Think out loud ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://kotfic.github.io/" class="navbar-brand">
+Think out loud            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://kotfic.github.io/pages/about.html">
+                             About
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://kotfic.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://kotfic.github.io/getting-stats-on-org-mode-headings-with-python.html"
+                       rel="bookmark"
+                       title="Permalink to Getting parameters on Org-Mode headings with Python">
+                        Getting parameters on Org-Mode headings with Python
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-04-10T00:00:00+02:00"> Fri 10 April 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://kotfic.github.io/tag/python.html">python</a>
+        /
+	<a href="http://kotfic.github.io/tag/org-mode.html">org-mode</a>
+        /
+	<a href="http://kotfic.github.io/tag/pandas.html">pandas</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Python isn't really the right tool for parsing org-mode files.  Ideally I should be using elisp, along with all the functions and regular expressions that work behind the scenes to orchestrate org-modes functionality. Unfortunately my fledgling understanding of the Org-Mode's <a href="http://orgmode.org/manual/Using-the-mapping-API.html">mapping api</a> seems likely to fail me and rather than end up <a href="http://programmers.stackexchange.com/questions/34775/correct-definition-of-the-term-yak-shaving">yak shaving</a> I'm going to use python. I guess the 'right tool for the job' is often the tool you know best; which is probably why that phrase is usually heard right before someone makes a discursive ideological argument about their new favorite tool-chain.  </p>
+<p>Of course there is prior art for parsing Org-Mode files in python. I could probably use <a href="https://github.com/bjonnh/PyOrgMode">PyOrgMode</a> to do this but when I cloned the repo and tried to parse a some of my files it choked. "It's probably a quick fix to figure out why it didn't work&#x2026;" is the thing I usually say right before a 5 hour marathon into someone else's code base.  I made a note to look into it and wrote this (quick and ugly) function instead: </p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
+<span class="k">def</span> <span class="nf">parse_headings</span><span class="p">(</span><span class="n">headings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Clean up,  some headings have &quot;:&quot; and * and other junk in them.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">heading</span> <span class="ow">in</span> <span class="n">headings</span><span class="p">:</span>
+        <span class="c"># If we got an empty heading for some reason get rid of it</span>
+        <span class="k">if</span> <span class="n">heading</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">hqueue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">heading</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">))</span>
+            <span class="c"># egrep will return a filename and the line seperated by a :</span>
+            <span class="c"># luckily this lines up with org&#39;s tag system</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="n">hqueue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c"># If there are tags last character will be a &#39;:&#39;</span>
+            <span class="c"># this check keeps us from parsing headlines with urls at</span>
+            <span class="c"># the end of them</span>
+            <span class="k">if</span> <span class="n">heading</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;:&quot;</span><span class="p">:</span>
+                <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">hqueue</span><span class="p">):</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">hqueue</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                    <span class="c"># append to tags unless we&#39;ve got an empty string</span>
+                    <span class="c"># or a queue item with spaces in it (org-mode tags</span>
+                    <span class="c"># can&#39;t have spaces)</span>
+                    <span class="k">if</span> <span class="s">&quot; &quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">t</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">t</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">hqueue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                        <span class="k">break</span>
+
+            <span class="c"># Re-join our head</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="s">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hqueue</span><span class="p">)</span>
+            <span class="c"># Get number of stars</span>
+            <span class="n">stars</span><span class="p">,</span> <span class="n">head</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">head</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">head</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">stars</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span>
+</pre></div>
+
+
+<p>This makes it easy to parse headings by using subprocess's <a href="https://docs.python.org/2/library/subprocess.html#subprocess.check_output">check_output()</a> function and <code>egrep</code> to pull lines that start with one or more '*' followed by a space:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="n">headings</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">&#39;egrep &quot;^[*]+ &quot; *.org&#39;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Headings can then be parsed using pandas:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">parse_headings</span><span class="p">(</span><span class="n">headings</span><span class="p">),</span>
+                  <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;FileName&quot;</span><span class="p">,</span> <span class="s">&quot;Level&quot;</span><span class="p">,</span> <span class="s">&quot;Heading&quot;</span><span class="p">,</span> <span class="s">&quot;Tags&quot;</span><span class="p">])</span>
+<span class="n">ti</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">&#39;Tags&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+</pre></div>
+
+
+<p>This gives me a data frame with four columns,  FileName,  Level, Heading and Tags.  I use the core strings method <a href="http://pandas.pydata.org/pandas-docs/dev/generated/pandas.core.strings.StringMethods.get_dummies.html">get_dummies()</a> to create a data frame of tag indicator variables so we can look at tag specific subgroups and do basic tag analysis. </p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+
+
+
+            <li class="list-group-item"><a href="http://kotfic.github.io/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                <ul class="list-group " id="tags">
+                    <li class="list-group-item tag-1">
+                        <a href="http://kotfic.github.io/tag/org-mode.html">
+                            org-mode
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="http://kotfic.github.io/tag/emacs.html">
+                            emacs
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://kotfic.github.io/tag/pelican.html">
+                            pelican
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://kotfic.github.io/tag/pandas.html">
+                            pandas
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://kotfic.github.io/tag/python.html">
+                            python
+                        </a>
+                    </li>
+                </ul>
+            </li>
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Christopher Kotfila
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+	    <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>
+	    <a href="http://orgmode.org/" target="_blank">Org-Mode</a>              <p><small>  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution 4.0 International License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://kotfic.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://kotfic.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://kotfic.github.io/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
