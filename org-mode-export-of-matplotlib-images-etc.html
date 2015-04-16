@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Org-mode export of matplotlib figures and code - Think out loud</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="http://kotfic.github.io/org-mode-export-of-matplotlib-images-etc.html">
+
+        <meta name="author" content="Christopher Kotfila" />
+        <meta name="keywords" content="python,org-mode,matplotlib,pelican" />
+        <meta name="description" content="This post looks at how to cleanly generate and export matplotlib figures along with the relevant code that generated them. Org requires a little preamble and postamble cruft to execute the python and generate the figure. In this post I look at how to export just the code you want, along with the figure that is generated." />
+
+        <meta property="og:site_name" content="Think out loud" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Org-mode export of matplotlib figures and code"/>
+        <meta property="og:url" content="http://kotfic.github.io/org-mode-export-of-matplotlib-images-etc.html"/>
+        <meta property="og:description" content="This post looks at how to cleanly generate and export matplotlib figures along with the relevant code that generated them. Org requires a little preamble and postamble cruft to execute the python and generate the figure. In this post I look at how to export just the code you want, along with the figure that is generated."/>
+        <meta property="article:published_time" content="2015-04-15" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="org-mode" />
+            <meta property="article:tag" content="matplotlib" />
+            <meta property="article:tag" content="pelican" />
+            <meta property="article:author" content="Christopher Kotfila" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://kotfic.github.io/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://kotfic.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://kotfic.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://kotfic.github.io/theme/css/style.css" type="text/css"/>
+
+        <link href="http://kotfic.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Think out loud ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://kotfic.github.io/" class="navbar-brand">
+Think out loud            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="http://kotfic.github.io/pages/about.html">
+                             About
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://kotfic.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://kotfic.github.io/org-mode-export-of-matplotlib-images-etc.html"
+                       rel="bookmark"
+                       title="Permalink to Org-mode export of matplotlib figures and code">
+                        Org-mode export of matplotlib figures and code
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-04-15T00:00:00+02:00"> Wed 15 April 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://kotfic.github.io/tag/python.html">python</a>
+        /
+	<a href="http://kotfic.github.io/tag/org-mode.html">org-mode</a>
+        /
+	<a href="http://kotfic.github.io/tag/matplotlib.html">matplotlib</a>
+        /
+	<a href="http://kotfic.github.io/tag/pelican.html">pelican</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>My ultimately goal is to publish something almost daily. Unfortunately, until I develop all the surrounding work-flows publication will be a little slower. One of the key components that has cropped up early is a good way to run analysis code and insert matplotlib figures directly into the buffer. This can be accomplished relatively easily with some extra code and <a href="http://orgmode.org/worg/org-contrib/babel/">Org-babel</a>. </p>
+<h1>Down the rabbit hole</h1>
+<p>In my <code>blog.org</code> file I can include the following python source in a python Org-babel source block block: </p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">orgstats</span> <span class="kn">import</span> <span class="n">get_dataframe</span>
+
+<span class="n">df</span><span class="p">,</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="s">&quot;/home/kotfic/org2&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&quot;Level&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;</span><span class="p">)</span>
+<span class="k">return</span> <span class="s">&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;</span>
+</pre></div>
+
+
+<p>I can execute the block by using the <code>C-c C-c</code> key binding on the <code>NAME</code> or the <code>BEGIN_SRC</code> lines. this produces the following figure:</p>
+<p><img alt="img" src="img/analysis-of-org-mode-headings/org-level-hist.png" /></p>
+<p>There are three separate components here:</p>
+<p>The <strong>first</strong> imports matplotlib, sets matplotlib's <a href="http://matplotlib.org/faq/usage_faq.html#what-is-a-backend">backend</a> to 'Agg' and then imports the <code>pyplot</code> library as <code>plt</code>:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+</pre></div>
+
+
+<p>The <strong>second</strong> runs the actual bit of analysis:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">orgstats</span> <span class="kn">import</span> <span class="n">get_dataframe</span>
+
+<span class="n">df</span><span class="p">,</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="s">&quot;/home/kotfic/org2&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&quot;Level&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Finally, the <strong>third</strong> saves the file out to disk using the <a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.savefig">savefig()</a> function and returns the name of the file:</p>
+<div class="highlight"><pre>plt.savefig(&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;)
+return &quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;
+</pre></div>
+
+
+<p>This last statement may seem a little strange.  it is an artifact of the <a href="http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html">ob-python</a> export engine.  Behind the scenes org will wrap the whole code block in a function and the function will return this value. if your org-mode block has <code>:results file</code> set in its header argument then the result block will insert a link which can be in-lined in your emacs buffer and correctly exported as a markdown image link. </p>
+<p>All together this extended example looks like this in my blog.org file:</p>
+<div class="highlight"><pre><span class="c">#+NAME: org-level-hist-extended</span>
+<span class="c">#+BEGIN_SRC python :exports both :results file</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">orgstats</span> <span class="kn">import</span> <span class="n">get_dataframe</span>
+
+<span class="n">df</span><span class="p">,</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="s">&quot;/home/kotfic/org2&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&quot;Level&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;</span><span class="p">);</span>
+<span class="k">return</span> <span class="s">&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;</span>
+<span class="c">#+END_SRC</span>
+</pre></div>
+
+
+<p>and produces the following results block:</p>
+<div class="highlight"><pre>#+RESULTS: org-level-hist-extended
+[[file:img/analysis-of-org-mode-headings/org-level-hist.png]]
+</pre></div>
+
+
+<p><strong>The problem</strong> is this preamble matplotlib code and this postamble org-mode code are quite distracting. An ideal <strong>solution</strong> would involve an executable python block that still produces the correct result block and <em>only</em> exports the relevant part of the code. </p>
+<p>A good place to start is with org-mode's <a href="http://orgmode.org/manual/Noweb-reference-syntax.html">noweb</a> syntax. Noweb lets you reuse code contained in other org-mode source code blocks through basic syntactic expansion. We can place our preamble code in a block like so:</p>
+<div class="highlight"><pre><span class="c">#+NAME: plt-preamble</span>
+<span class="c">#+BEGIN_SRC python :results file :exports none </span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="c">#+END_SRC</span>
+</pre></div>
+
+
+<p>and our postamble code: </p>
+<div class="highlight"><pre>#+NAME: plt-postamble
+#+BEGIN_SRC python :results file :exports none
+
+plt.savefig(&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;)
+return &quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;
+
+#+END_SRC
+</pre></div>
+
+
+<p>Then use the <code>&lt;&lt;...&gt;&gt;</code> syntax to reference these code blocks in a block that does the actual analysis.</p>
+<div class="highlight"><pre><span class="c">#+NAME: org-level-hist</span>
+<span class="c">#+BEGIN_SRC python :exports both :noweb strip-export :results file</span>
+<span class="o">&lt;&lt;</span><span class="n">plt</span><span class="o">-</span><span class="n">preamble</span><span class="o">&gt;&gt;</span>
+<span class="kn">from</span> <span class="nn">orgstats</span> <span class="kn">import</span> <span class="n">get_dataframe</span>
+
+<span class="n">df</span><span class="p">,</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="s">&quot;/home/kotfic/org2&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&quot;Level&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+
+<span class="o">&lt;&lt;</span><span class="n">plt</span><span class="o">-</span><span class="n">postamble</span><span class="o">&gt;&gt;</span>
+<span class="c">#+END_SRC</span>
+</pre></div>
+
+
+<p>In order to get the desired effect we set the noweb header argument value to <code>:noweb strip-export</code>. This will export the code block and strip out the noweb references before exporting the relevant code the markdown.  Great start!</p>
+<p>The only nagging issue is specifying the file name of the image.  plt-postamble as-is will always save to <code>img/analysis-of-org-mode-headings/org-level-hist.png</code>. To solve this problem we can modify plt-postamble to take a variable:</p>
+<div class="highlight"><pre>#+NAME: plt-postamble
+#+BEGIN_SRC python :results file :exports none
+
+# &quot;path&quot; variable must be set by block that
+# expands this org source code block
+plt.savefig(path)
+return path
+
+#+END_SRC
+</pre></div>
+
+
+<p>The final block that produces the analysis then includes that variable (path) as a <code>HEADER</code> argument. It looks like this:</p>
+<div class="highlight"><pre><span class="c">#+NAME: org-level-hist</span>
+<span class="c">#+HEADER: :var path=&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;</span>
+<span class="c">#+BEGIN_SRC python :exports both :noweb strip-export :results file</span>
+<span class="o">&lt;&lt;</span><span class="n">plt</span><span class="o">-</span><span class="n">preamble</span><span class="o">&gt;&gt;</span>
+<span class="kn">from</span> <span class="nn">orgstats</span> <span class="kn">import</span> <span class="n">get_dataframe</span>
+
+<span class="n">df</span><span class="p">,</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="s">&quot;/home/kotfic/org2&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&quot;Level&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+
+<span class="o">&lt;&lt;</span><span class="n">plt</span><span class="o">-</span><span class="n">postamble</span><span class="o">&gt;&gt;</span>
+<span class="c">#+END_SRC</span>
+</pre></div>
+
+
+<h1>Into the guts a little</h1>
+<p>This works because behind the scenes python is tangling all of these blocks out to a temporary file and then executing the file.  The <code>:var path=img/analysis-of-org-mode-headings/org-level-hist.png</code> header argument means org-mode will create a python variable named 'path' at the top of that file.  The <code>plt-postamble</code> block picks up that variable and uses it to save the image and return the correct file name for Org's inline image display and markdown export.</p>
+<p>The above code block produces the following file into something like <code>/tmp/babel-29898Xn/ob-input-2989q6W</code>:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+        <span class="n">path</span><span class="o">=</span><span class="s">&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;</span>
+        <span class="kn">import</span> <span class="nn">matplotlib</span>
+        <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;Agg&#39;</span><span class="p">)</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+        <span class="kn">from</span> <span class="nn">orgstats</span> <span class="kn">import</span> <span class="n">get_dataframe</span>
+
+        <span class="n">df</span><span class="p">,</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="s">&quot;/home/kotfic/org2&quot;</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&quot;Level&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">path</span>
+
+<span class="nb">open</span><span class="p">(</span><span class="s">&#39;/tmp/babel-29898Xn/python-2989dwQ&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span> <span class="nb">str</span><span class="p">(</span><span class="n">main</span><span class="p">())</span> <span class="p">)</span>
+</pre></div>
+
+
+<p>Now this can get a little confusing&#x2026;  There is an input file that starts with <code>ob-input-[...]</code>  and an output file <code>python-[...]</code>.  Emacs generates the input file by creating a function <code>main()</code>  and then appending any <code>:var foo=bar</code> statements,  expanding any noweb blocks and inserting the python code into the main function then finally appending the <code>open(...).write( str(main()) )</code> python line. Once the file is saved to the <code>tmp</code> folder it executes the python script in a separate process. The script produces the output file (e.g., <code>python-2989dwQ</code>) and emacs reads in the contents of that file to get the results of the execution and inserts them into the org-mode buffer. </p>
+<p>Normally this <code>ob-input-2989q6W</code> file is deleted,  you can bind <code>org-babel--debug-input</code> to true (e.g., <code>(setq org-babel--debug-input t)</code>) to keep it around if you want to directly debug the complete python script. I have found that to be a <a href="http://www.life-savers.com/">life saver</a>. </p>
+<p><strong>whew</strong> </p>
+<p>So with that little trip into the guts of <a href="http://orgmode.org/cgit.cgi/org-mode.git/plain/lisp/ob-eval.el">ob-eval.el</a> this block: </p>
+<div class="highlight"><pre><span class="c">#+NAME: org-level-hist-example</span>
+<span class="c">#+HEADER: :var path=&quot;img/analysis-of-org-mode-headings/org-level-hist.png&quot;</span>
+<span class="c">#+BEGIN_SRC python :exports both :noweb strip-export :results file</span>
+<span class="o">&lt;&lt;</span><span class="n">plt</span><span class="o">-</span><span class="n">preamble</span><span class="o">&gt;&gt;</span>
+<span class="kn">from</span> <span class="nn">orgstats</span> <span class="kn">import</span> <span class="n">get_dataframe</span>
+
+<span class="n">df</span><span class="p">,</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="s">&quot;/home/kotfic/org2&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&quot;Level&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+
+<span class="o">&lt;&lt;</span><span class="n">plt</span><span class="o">-</span><span class="n">postamble</span><span class="o">&gt;&gt;</span>
+<span class="c">#+END_SRC</span>
+</pre></div>
+
+
+<p>exports as:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">orgstats</span> <span class="kn">import</span> <span class="n">get_dataframe</span>
+
+<span class="n">df</span><span class="p">,</span> <span class="n">ti</span> <span class="o">=</span> <span class="n">get_dataframe</span><span class="p">(</span><span class="s">&quot;/home/kotfic/org2&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&quot;Level&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="img" src="img/analysis-of-org-mode-headings/org-level-hist.png" /></p>
+<p>Which is exactly what we were looking for.</p>
+<h1>Wrap up</h1>
+<p>An obvious question is "Why not <a href="http://ipython.org/notebook.html">IPython Notebook</a>?" With mixed markdown and python code and exporting to html/markdown, IPython has excellent support for exactly this kind of work flow- plus I already use it almost every day. So why not write this blog in IPython like a real <a href="http://jakevdp.github.io/">champ</a>? </p>
+<p>Ultimately (for me) org-mode provides more functionality and a better text editing experience; though clearly at the cost of increased complexity. Its pretty astonishing that these kinds of <a href="http://www.literateprogramming.com/knuthweb.pdf">Literate Programming</a> capabilities are available at all. With emacs I can write in text but also in python, R, and sql, I can make charts and graphs with ditaa and graphviz, I have built-in table support with excel-like features, and it all exports to HTML, ODT, PDF, LaTeX, Markdown and a half-dozen others. </p>
+<p>Really&#x2026; not to shabby for a text editor that was created in 1976.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+
+
+
+            <li class="list-group-item"><a href="http://kotfic.github.io/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                <ul class="list-group " id="tags">
+                    <li class="list-group-item tag-1">
+                        <a href="http://kotfic.github.io/tag/org-mode.html">
+                            org-mode
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="http://kotfic.github.io/tag/emacs.html">
+                            emacs
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="http://kotfic.github.io/tag/python.html">
+                            python
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="http://kotfic.github.io/tag/pelican.html">
+                            pelican
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://kotfic.github.io/tag/pandas.html">
+                            pandas
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://kotfic.github.io/tag/matplotlib.html">
+                            matplotlib
+                        </a>
+                    </li>
+                </ul>
+            </li>
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Christopher Kotfila
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+	    <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>
+	    <a href="http://orgmode.org/" target="_blank">Org-Mode</a>              <p><small>  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution 4.0 International License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://kotfic.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://kotfic.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://kotfic.github.io/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

@@ -1,5 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Think out loud</title><link href="http://kotfic.github.io/" rel="alternate"></link><link href="http://kotfic.github.io/feeds/all.atom.xml" rel="self"></link><id>http://kotfic.github.io/</id><updated>2015-04-10T00:00:00+02:00</updated><entry><title>Getting parameters on Org-Mode headings with Python</title><link href="http://kotfic.github.io/getting-stats-on-org-mode-headings-with-python.html" rel="alternate"></link><updated>2015-04-10T00:00:00+02:00</updated><author><name>Christopher Kotfila</name></author><id>tag:kotfic.github.io,2015-04-10:getting-stats-on-org-mode-headings-with-python.html</id><summary type="html">&lt;p&gt;Python isn't really the right tool for parsing org-mode files.  Ideally I should be using elisp, along with all the functions and regular expressions that work behind the scenes to orchestrate org-modes functionality. Unfortunately my fledgling understanding of the Org-Mode's &lt;a href="http://orgmode.org/manual/Using-the-mapping-API.html"&gt;mapping api&lt;/a&gt; seems likely to fail me and rather than end up &lt;a href="http://programmers.stackexchange.com/questions/34775/correct-definition-of-the-term-yak-shaving"&gt;yak shaving&lt;/a&gt; I'm going to use python. I guess the 'right tool for the job' is often the tool you know best; which is probably why that phrase is usually heard right before someone makes a discursive ideological argument about their new favorite tool-chain.  &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Think out loud</title><link href="http://kotfic.github.io/" rel="alternate"></link><link href="http://kotfic.github.io/feeds/all.atom.xml" rel="self"></link><id>http://kotfic.github.io/</id><updated>2015-04-15T00:00:00+02:00</updated><entry><title>Org-mode export of matplotlib figures and code</title><link href="http://kotfic.github.io/org-mode-export-of-matplotlib-images-etc.html" rel="alternate"></link><updated>2015-04-15T00:00:00+02:00</updated><author><name>Christopher Kotfila</name></author><id>tag:kotfic.github.io,2015-04-15:org-mode-export-of-matplotlib-images-etc.html</id><summary type="html">&lt;p&gt;My ultimately goal is to publish something almost daily. Unfortunately, until I develop all the surrounding work-flows publication will be a little slower. One of the key components that has cropped up early is a good way to run analysis code and insert matplotlib figures directly into the buffer. This can be accomplished relatively easily with some extra code and &lt;a href="http://orgmode.org/worg/org-contrib/babel/"&gt;Org-babel&lt;/a&gt;. &lt;/p&gt;
+&lt;h1&gt;Down the rabbit hole&lt;/h1&gt;
+&lt;p&gt;In my &lt;code&gt;blog.org&lt;/code&gt; file I can include the following python source in a python Org-babel source block block: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib&lt;/span&gt;
+&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Agg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;orgstats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ti&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/home/kotfic/org2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;savefig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I can execute the block by using the &lt;code&gt;C-c C-c&lt;/code&gt; key binding on the &lt;code&gt;NAME&lt;/code&gt; or the &lt;code&gt;BEGIN_SRC&lt;/code&gt; lines. this produces the following figure:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="img" src="img/analysis-of-org-mode-headings/org-level-hist.png" /&gt;&lt;/p&gt;
+&lt;p&gt;There are three separate components here:&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;first&lt;/strong&gt; imports matplotlib, sets matplotlib's &lt;a href="http://matplotlib.org/faq/usage_faq.html#what-is-a-backend"&gt;backend&lt;/a&gt; to 'Agg' and then imports the &lt;code&gt;pyplot&lt;/code&gt; library as &lt;code&gt;plt&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib&lt;/span&gt;
+&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Agg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;strong&gt;second&lt;/strong&gt; runs the actual bit of analysis:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;orgstats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ti&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/home/kotfic/org2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Finally, the &lt;strong&gt;third&lt;/strong&gt; saves the file out to disk using the &lt;a href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.savefig"&gt;savefig()&lt;/a&gt; function and returns the name of the file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;plt.savefig(&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;)
+return &amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This last statement may seem a little strange.  it is an artifact of the &lt;a href="http://orgmode.org/worg/org-contrib/babel/languages/ob-doc-python.html"&gt;ob-python&lt;/a&gt; export engine.  Behind the scenes org will wrap the whole code block in a function and the function will return this value. if your org-mode block has &lt;code&gt;:results file&lt;/code&gt; set in its header argument then the result block will insert a link which can be in-lined in your emacs buffer and correctly exported as a markdown image link. &lt;/p&gt;
+&lt;p&gt;All together this extended example looks like this in my blog.org file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#+NAME: org-level-hist-extended&lt;/span&gt;
+&lt;span class="c"&gt;#+BEGIN_SRC python :exports both :results file&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib&lt;/span&gt;
+&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Agg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;orgstats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ti&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/home/kotfic/org2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;savefig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;#+END_SRC&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and produces the following results block:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;#+RESULTS: org-level-hist-extended
+[[file:img/analysis-of-org-mode-headings/org-level-hist.png]]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;The problem&lt;/strong&gt; is this preamble matplotlib code and this postamble org-mode code are quite distracting. An ideal &lt;strong&gt;solution&lt;/strong&gt; would involve an executable python block that still produces the correct result block and &lt;em&gt;only&lt;/em&gt; exports the relevant part of the code. &lt;/p&gt;
+&lt;p&gt;A good place to start is with org-mode's &lt;a href="http://orgmode.org/manual/Noweb-reference-syntax.html"&gt;noweb&lt;/a&gt; syntax. Noweb lets you reuse code contained in other org-mode source code blocks through basic syntactic expansion. We can place our preamble code in a block like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#+NAME: plt-preamble&lt;/span&gt;
+&lt;span class="c"&gt;#+BEGIN_SRC python :results file :exports none &lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib&lt;/span&gt;
+&lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Agg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;span class="c"&gt;#+END_SRC&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and our postamble code: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;#+NAME: plt-postamble
+#+BEGIN_SRC python :results file :exports none
+
+plt.savefig(&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;)
+return &amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;
+
+#+END_SRC
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then use the &lt;code&gt;&amp;lt;&amp;lt;...&amp;gt;&amp;gt;&lt;/code&gt; syntax to reference these code blocks in a block that does the actual analysis.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#+NAME: org-level-hist&lt;/span&gt;
+&lt;span class="c"&gt;#+BEGIN_SRC python :exports both :noweb strip-export :results file&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;preamble&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;orgstats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ti&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/home/kotfic/org2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;postamble&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;#+END_SRC&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In order to get the desired effect we set the noweb header argument value to &lt;code&gt;:noweb strip-export&lt;/code&gt;. This will export the code block and strip out the noweb references before exporting the relevant code the markdown.  Great start!&lt;/p&gt;
+&lt;p&gt;The only nagging issue is specifying the file name of the image.  plt-postamble as-is will always save to &lt;code&gt;img/analysis-of-org-mode-headings/org-level-hist.png&lt;/code&gt;. To solve this problem we can modify plt-postamble to take a variable:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;#+NAME: plt-postamble
+#+BEGIN_SRC python :results file :exports none
+
+# &amp;quot;path&amp;quot; variable must be set by block that
+# expands this org source code block
+plt.savefig(path)
+return path
+
+#+END_SRC
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The final block that produces the analysis then includes that variable (path) as a &lt;code&gt;HEADER&lt;/code&gt; argument. It looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#+NAME: org-level-hist&lt;/span&gt;
+&lt;span class="c"&gt;#+HEADER: :var path=&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;#+BEGIN_SRC python :exports both :noweb strip-export :results file&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;preamble&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;orgstats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ti&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/home/kotfic/org2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;postamble&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;#+END_SRC&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Into the guts a little&lt;/h1&gt;
+&lt;p&gt;This works because behind the scenes python is tangling all of these blocks out to a temporary file and then executing the file.  The &lt;code&gt;:var path=img/analysis-of-org-mode-headings/org-level-hist.png&lt;/code&gt; header argument means org-mode will create a python variable named 'path' at the top of that file.  The &lt;code&gt;plt-postamble&lt;/code&gt; block picks up that variable and uses it to save the image and return the correct file name for Org's inline image display and markdown export.&lt;/p&gt;
+&lt;p&gt;The above code block produces the following file into something like &lt;code&gt;/tmp/babel-29898Xn/ob-input-2989q6W&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;&lt;/span&gt;
+        &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib&lt;/span&gt;
+        &lt;span class="n"&gt;matplotlib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;use&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Agg&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+        &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;orgstats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;
+
+        &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ti&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/home/kotfic/org2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;savefig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt;
+
+&lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/tmp/babel-29898Xn/python-2989dwQ&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;w&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now this can get a little confusing&amp;#x2026;  There is an input file that starts with &lt;code&gt;ob-input-[...]&lt;/code&gt;  and an output file &lt;code&gt;python-[...]&lt;/code&gt;.  Emacs generates the input file by creating a function &lt;code&gt;main()&lt;/code&gt;  and then appending any &lt;code&gt;:var foo=bar&lt;/code&gt; statements,  expanding any noweb blocks and inserting the python code into the main function then finally appending the &lt;code&gt;open(...).write( str(main()) )&lt;/code&gt; python line. Once the file is saved to the &lt;code&gt;tmp&lt;/code&gt; folder it executes the python script in a separate process. The script produces the output file (e.g., &lt;code&gt;python-2989dwQ&lt;/code&gt;) and emacs reads in the contents of that file to get the results of the execution and inserts them into the org-mode buffer. &lt;/p&gt;
+&lt;p&gt;Normally this &lt;code&gt;ob-input-2989q6W&lt;/code&gt; file is deleted,  you can bind &lt;code&gt;org-babel--debug-input&lt;/code&gt; to true (e.g., &lt;code&gt;(setq org-babel--debug-input t)&lt;/code&gt;) to keep it around if you want to directly debug the complete python script. I have found that to be a &lt;a href="http://www.life-savers.com/"&gt;life saver&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;whew&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;So with that little trip into the guts of &lt;a href="http://orgmode.org/cgit.cgi/org-mode.git/plain/lisp/ob-eval.el"&gt;ob-eval.el&lt;/a&gt; this block: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#+NAME: org-level-hist-example&lt;/span&gt;
+&lt;span class="c"&gt;#+HEADER: :var path=&amp;quot;img/analysis-of-org-mode-headings/org-level-hist.png&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;#+BEGIN_SRC python :exports both :noweb strip-export :results file&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;preamble&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;orgstats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ti&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/home/kotfic/org2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;postamble&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;#+END_SRC&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;exports as:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;orgstats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ti&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_dataframe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/home/kotfic/org2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Level&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="img" src="img/analysis-of-org-mode-headings/org-level-hist.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Which is exactly what we were looking for.&lt;/p&gt;
+&lt;h1&gt;Wrap up&lt;/h1&gt;
+&lt;p&gt;An obvious question is "Why not &lt;a href="http://ipython.org/notebook.html"&gt;IPython Notebook&lt;/a&gt;?" With mixed markdown and python code and exporting to html/markdown, IPython has excellent support for exactly this kind of work flow- plus I already use it almost every day. So why not write this blog in IPython like a real &lt;a href="http://jakevdp.github.io/"&gt;champ&lt;/a&gt;? &lt;/p&gt;
+&lt;p&gt;Ultimately (for me) org-mode provides more functionality and a better text editing experience; though clearly at the cost of increased complexity. Its pretty astonishing that these kinds of &lt;a href="http://www.literateprogramming.com/knuthweb.pdf"&gt;Literate Programming&lt;/a&gt; capabilities are available at all. With emacs I can write in text but also in python, R, and sql, I can make charts and graphs with ditaa and graphviz, I have built-in table support with excel-like features, and it all exports to HTML, ODT, PDF, LaTeX, Markdown and a half-dozen others. &lt;/p&gt;
+&lt;p&gt;Really&amp;#x2026; not to shabby for a text editor that was created in 1976.&lt;/p&gt;</summary><category term="python"></category><category term="org-mode"></category><category term="matplotlib"></category><category term="pelican"></category></entry><entry><title>Getting parameters on Org-Mode headings with Python</title><link href="http://kotfic.github.io/getting-stats-on-org-mode-headings-with-python.html" rel="alternate"></link><updated>2015-04-10T00:00:00+02:00</updated><author><name>Christopher Kotfila</name></author><id>tag:kotfic.github.io,2015-04-10:getting-stats-on-org-mode-headings-with-python.html</id><summary type="html">&lt;p&gt;Python isn't really the right tool for parsing org-mode files.  Ideally I should be using elisp, along with all the functions and regular expressions that work behind the scenes to orchestrate org-modes functionality. Unfortunately my fledgling understanding of the Org-Mode's &lt;a href="http://orgmode.org/manual/Using-the-mapping-API.html"&gt;mapping api&lt;/a&gt; seems likely to fail me and rather than end up &lt;a href="http://programmers.stackexchange.com/questions/34775/correct-definition-of-the-term-yak-shaving"&gt;yak shaving&lt;/a&gt; I'm going to use python. I guess the 'right tool for the job' is often the tool you know best; which is probably why that phrase is usually heard right before someone makes a discursive ideological argument about their new favorite tool-chain.  &lt;/p&gt;
 &lt;p&gt;Of course there is prior art for parsing Org-Mode files in python. I could probably use &lt;a href="https://github.com/bjonnh/PyOrgMode"&gt;PyOrgMode&lt;/a&gt; to do this but when I cloned the repo and tried to parse a some of my files it choked. "It's probably a quick fix to figure out why it didn't work&amp;#x2026;" is the thing I usually say right before a 5 hour marathon into someone else's code base.  I made a note to look into it and wrote this (quick and ugly) function instead: &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;deque&lt;/span&gt;
 
