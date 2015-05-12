@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Initial Analysis of Org-mode headings and workflow - Think out loud</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/initial-analysis-of-org-mode-headings.html">
+
+        <meta name="author" content="Christopher Kotfila" />
+        <meta name="keywords" content="python,org-mode,pandas" />
+        <meta name="description" content="Taking an initial look at the structure of my org-mode files and some retrospective in terms of classes I&#39;ve taken over the last two years" />
+
+        <meta property="og:site_name" content="Think out loud" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Initial Analysis of Org-mode headings and workflow"/>
+        <meta property="og:url" content="/initial-analysis-of-org-mode-headings.html"/>
+        <meta property="og:description" content="Taking an initial look at the structure of my org-mode files and some retrospective in terms of classes I&#39;ve taken over the last two years"/>
+        <meta property="article:published_time" content="2015-05-11" />
+            <meta property="article:section" content="misc" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="org-mode" />
+            <meta property="article:tag" content="pandas" />
+            <meta property="article:author" content="Christopher Kotfila" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Think out loud            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="/pages/about.html">
+                             About
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/initial-analysis-of-org-mode-headings.html"
+                       rel="bookmark"
+                       title="Permalink to Initial Analysis of Org-mode headings and workflow">
+                        Initial Analysis of Org-mode headings and workflow
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-05-11T00:00:00+02:00"> Mon 11 May 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">python</a>
+        /
+	<a href="/tag/org-mode.html">org-mode</a>
+        /
+	<a href="/tag/pandas.html">pandas</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>The end of the semester pretty much derailed my momentum when it came to posting in this blog. Luckily I've finished my classes and,  with some excitement,  I have also finished all my classwork for my PhD. program.  This means more work,  but less structure,  and I am hoping to blog as a way to add structure and writing practice to my day to day. </p>
+<p>Good to know,  but not the point of this post. With the new 'free time' I have the first thing my mind has turned to is the cruft in my org-mode files. For reasons already mentioned I would like to rework my workflow to be more tag based. File this under exploritory analysis of my workflow.  I'm hoping by having a better empirical understanding of how I tag and work, that I will be able to engineer a better personal workflow.  Key now that I am 'in the wind' in terms of day to day structure.</p>
+<h1>Classes</h1>
+<p>This means looking at tags, headings, heirarchy and filenames.  To begin,  since begining my PhD program I have kept org files for each individual class as well as several independent org-mode files of dubious utility.  I have 12 class org-files including 7 INF (informatics),  3 GOG (geography and planning), and 2 PAD (public administration) classes.  These class files generally follow a top level structure including "Notes", "Tasks", "Syllabus", and "Classes" with 23 unique top level headings in the 12 course files.  These unique headings are mostly represented by failures to consistently name (e.g.,  "Assingments", and "Assignments",  or "Questions", "Review Questions", "Questions <code>[43/45]</code>")  but also unique items that simply were not filed under a separate top level structure (e.g., "Open Gauss-Markov", "PSID Notes", "Final Research Proposal"). </p>
+<p>In general this structure has served me pretty well.  Classes have been maintained as individual headings with one per class (I have found repeating tasks to be error prone). More recently I have maintained Notes under headings with day specific headers using org inactive time stamps. With all this notes are still somewhat sporadic and not well represented across different files. </p>
+<p><img alt="img" src="img/heading-count-per-file.png" /></p>
+<p>Interestingly I would say this corresponds quite nicely with my anecdotal ranking of class difficulty,  not only in rank,  but also (roughly) in proportion. Breaking this down by depth of heading within the org hierarchy we see PAD705 dominates all other classes in terms of the complexity of notes:</p>
+<p><img alt="img" src="img/heading-count-vs-depth-per-file.png" /></p>
+<h1>Other Org files</h1>
+<p>Several other files are also included in my work flow. The items of primary interest are <code>personal.org</code>, <code>journal.org</code>,  <code>unfiled.org</code>, <code>infphd.org</code>, <code>research.org</code>, <code>publication.org</code>, <code>references.org</code> and several others which are specific and should probably be folded into other files. </p>
+<ul>
+<li><strong>personal.org:</strong> Personal has become a dumping ground for projects and notes not directly related to any particular subject.  It contains information about Hackathons,  Mozilla Science Labs,  Open Source Initiative and various fellowships and other things I've looked at over the last couple of years. It is a mishmash of things that could probably be moved into a general 'projects' file.</li>
+<li><strong>journal.org:</strong> Currently this keeps a datetree with clocked time.  Quite a few of the tags I use appear here in a haphazard way to provide access to the time I spend on things.  It is not perfect because I frequently let timers run long and have to guess at how long something has taken me.  I'm not sure there is a way around this though. Unfortunately I still have tons of CLOCK statements scattered through my regular files.  I have a nice little function that will let me refile them when I run into them.  Getting a consistent journal.org file with time on task for the majority of the things I work on is a key priority.</li>
+<li><strong>unfiled.org:</strong> This is where capture templates default too, and unfortunately it is completely out of control.  There are roughly 500 unfiled notes in this org-file,  most of them actually are already complete but have never been properly refiled. Maybe some kind of note,  or alert to let me know when I've reached a certain threshold,  so I can make it a priority to refile?</li>
+<li><strong>infphd.org:</strong> Similar to personal.org this file just contains notes, tasks,  and projects related to completing my PhD.  It is primarily focused on administrative aspects,  but also contains notes and tasks for the 4 pro-seminar classes I have taken.  Like personal (and unfiled)  Many of these headings could go into a projects file,  and then most of the headings could be archived.</li>
+<li><strong>research.org:</strong> Similar to infphd.org except with tasks etc related to working with my adviser and on other research projects.</li>
+<li><strong>publication.org:</strong> Publication.org is a nice idea that hasn't been very well executed,  I would like some way to collect the various presentations,  papers and other material that I have accrued over the last two to four years. Ultimately this is about access though,  and so maybe the goal should be to maintain this as a set of tags rather than in a separate file?</li>
+<li><strong>references.org:</strong> References is an unfortunate situation.  I have 146 difference references with notes contained in this file.  Ultimately I would like my reference system to integrated with org-mode and my reading lists and everything else,  but at the end of the day I have to collaborate with others and this means using at least LibreOffice which means references need to be integrated which,  for me at least,  means Zotero.  Figuring out how to migrate these references faithfully into Zotero and to maintain their notes is important to me. This file represents quite a bit of work (both reading and writing)  and maintaining a connection between notes and zotero is still an unsolved problem for my workflow.</li>
+</ul>
+<h1>Concluding Thoughts</h1>
+<p>Classes simply won't be as important moving forward.  Ensuring that these are properly arranged should probably be a relatively low priority.  Part of the reason I am doing this to begin with is because the context in which I do my work is about to change,  and so this provides an opportunity to develop an improved workflow around this new context. </p>
+<p>I am thinking primarily about sets of theme related tags. I would like to have less org-files and be more aggressive about archiving content that is no longer relevant. Key things moving forward will be cataloging and providing access to projects (programming, etc)  and publications (writing, presentations, etc). I would like to improve capture templates to help prevent <code>unfiled.org</code> from becoming so unwieldy. The references/zotero thing needs to be worked out.  Finally I would like to complete the migration of time entries into journal.org,  though its not clear that this is even the best way to maintain my time on task entries.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+
+
+
+            <li class="list-group-item"><a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                <ul class="list-group " id="tags">
+                    <li class="list-group-item tag-1">
+                        <a href="/tag/org-mode.html">
+                            org-mode
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-1">
+                        <a href="/tag/python.html">
+                            python
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="/tag/pandas.html">
+                            pandas
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="/tag/emacs.html">
+                            emacs
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="/tag/pelican.html">
+                            pelican
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="/tag/matplotlib.html">
+                            matplotlib
+                        </a>
+                    </li>
+                </ul>
+            </li>
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Christopher Kotfila
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>
+	    <a href="https://www.gnu.org/software/emacs/" target="_blank">Emacs</a>
+	    <a href="http://orgmode.org/" target="_blank">Org-Mode</a>              <p><small>  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution 4.0 International License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

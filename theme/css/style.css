@@ -221,3 +221,7 @@ figure.floatcenter, .align-center {
         font-size: 16px;
     }
 }
+
+li {
+    margin-top: 10px;
+}
